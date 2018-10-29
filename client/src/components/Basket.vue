@@ -1,16 +1,17 @@
 <template>
-  <div class="catalog">
+  <div class="basket">
 		<Nav 
 			:basketLength="basketLength"
 			:basketPrice="basketPrice"
 		/>
 		<div class="products">
-			<div class="product" v-for="(product, index) in products" :key="index">
+			<div class="product" v-for="(product, index) in basket" :key="index">
 				<div class="name">{{ product.name }}</div>
 				<div class="price">{{ product.price }}р</div>
-				<div class="button" @click="addProduct(product.id)">В корзину</div>
+				<div class="button" @click="removeProduct(product.id)">Удалить</div>
 			</div>
 		</div>
+		<div class="clear" @click="removeAll">Очистить корзину</div>
 		<div class="popup" v-show="popup">{{ popupMsg }}</div>
   </div>
 </template>
@@ -21,18 +22,15 @@ import axios from 'axios'
 import Nav from './Nav.vue'
 
 export default {
-	name: 'Catalog',
+	name: 'Basket',
 	components: {
 		Nav
 	},
   data () {
     return {
-			products: [],
 			basket: [],
-			newBasket: [],
-			popup: false,
 			popupMsg: '',
-			addId: []
+			popup: false
     }
 	},
 	computed: {
@@ -50,15 +48,28 @@ export default {
 		}
 	},
 	mounted() {
-    this.getProducts()
 		this.getBasket()
 	},
 	methods: {
-		addProduct(id){
-			axios.post('http://localhost:3000/add/'+id)
+		removeProduct(id) {
+			axios.post('http://localhost:3000/remove/'+id)
 				.then((response) => {
 					console.log(response);
-					this.popupMsg = 'Товар добавлен'
+					this.popupMsg = 'Товар удален'
+					this.showPopup()
+					this.getBasket()
+				})
+				.catch((error) => {
+					console.log(error);
+					this.popupMsg = 'Ошибка'
+					this.showPopup()
+				});
+		},
+		removeAll(){
+			axios.post('http://localhost:3000/remove/all/')
+				.then((response) => {
+					console.log(response);
+					this.popupMsg = 'Корзина очищенна'
 					this.showPopup()
 					this.getBasket()
 				})
@@ -80,22 +91,14 @@ export default {
 				.get('http://localhost:3000/basket')
 				.then(response => {
 					this.basket = response.data
-				})
-				.catch(error => {
-					console.log(error);
 				});
-		},
-		getProducts() {
-			axios
-				.get('http://localhost:3000/products')
-				.then(response => (this.products = response.data));
 		}
 	}
 }
 </script>
 
 <style scoped>
-.catalog h1{
+.basket h1{
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 21px;
 	text-align: center;
@@ -131,6 +134,16 @@ export default {
 }
 .button:hover{
 	background-color: red;
+}
+.clear{
+	cursor: pointer;
+	padding: 7px 12px;
+	background-color: red;
+	color: white;
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+	margin: 20px auto;
 }
 .popup{
 	display: flex;

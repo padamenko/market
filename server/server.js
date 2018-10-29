@@ -24,9 +24,35 @@ low(adapter)
 		.get('/basket', async (ctx, next) => {
 			ctx.body = await db.get('basket')
 		})
-		.post('/add', async (ctx, next) => {
-			const newState = ctx.request.body
+		.post('/add/:id', async (ctx, next) => {
+			const state = await db.get('basket').value()
+			const productsId = ctx.params.id.split(',')
+			const productLength = productsId.length
+			let i = 0
+			let products = []
+			while(i < productLength) {
+				const currentId = Number(productsId[i])
+				const product = await db.get('products').find({ id: currentId }).value()
+				products.push(product)
+				i++
+			}
+			const newState = state.concat(products)
+			console.log(newState)
 			await db.set('basket', newState).write()
+			ctx.body = await db.get('basket')
+		})
+		.post('/remove/all/', async (ctx, next) => {
+			const newState = []
+			await db.set('basket', newState).write()
+			ctx.body = await db.get('basket')
+		})
+		.post('/remove/:id', async (ctx, next) => {
+			const state = await db.get('basket').value()
+			const id = Number(ctx.params.id)
+			const current = await db.get('basket').find({ id: id }).value()
+			const index = state.indexOf(current)
+			state.splice(index, 1);
+			await db.set('basket', state).write()
 			ctx.body = await db.get('basket')
 		})
 		.get('/product/:id', async (ctx, next) => {
