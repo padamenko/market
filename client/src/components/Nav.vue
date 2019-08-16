@@ -48,7 +48,7 @@ export default {
 	}
 }
 </script>
-<style>
+<style scoped>
 .nav{
 	display: flex;
 	justify-content: space-around;
