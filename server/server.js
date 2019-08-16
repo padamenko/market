@@ -51,9 +51,15 @@ low(adapter)
 			const id = Number(ctx.params.id)
 			const current = await db.get('basket').find({ id: id }).value()
 			const index = state.indexOf(current)
-			state.splice(index, 1);
-			await db.set('basket', state).write()
-			ctx.body = await db.get('basket')
+			if(index !== -1) {
+				state.splice(index, 1);
+				await db.set('basket', state).write()
+				ctx.status = 200
+			}
+			else{
+				ctx.body = 'Not found'
+				ctx.status = 404
+			}
 		})
 		.get('/product/:id', async (ctx, next) => {
 			const id = Number(ctx.params.id)

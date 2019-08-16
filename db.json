@@ -53,11 +53,6 @@
   ],
   "basket": [
     {
-      "name": "product-1",
-      "price": 1000,
-      "id": 1
-    },
-    {
       "name": "product-3",
       "price": 3000,
       "id": 3
@@ -76,6 +71,71 @@
       "name": "product-7",
       "price": 700,
       "id": 7
+    },
+    {
+      "name": "product-1",
+      "price": 1000,
+      "id": 1
+    },
+    {
+      "name": "product-6",
+      "price": 6000,
+      "id": 6
+    },
+    {
+      "name": "product-6",
+      "price": 6000,
+      "id": 6
+    },
+    {
+      "name": "product-6",
+      "price": 6000,
+      "id": 6
+    },
+    {
+      "name": "product-6",
+      "price": 6000,
+      "id": 6
+    },
+    {
+      "name": "product-6",
+      "price": 6000,
+      "id": 6
+    },
+    {
+      "name": "product-6",
+      "price": 6000,
+      "id": 6
+    },
+    {
+      "name": "product-6",
+      "price": 6000,
+      "id": 6
+    },
+    {
+      "name": "product-6",
+      "price": 6000,
+      "id": 6
+    },
+    {
+      "name": "product-6",
+      "price": 6000,
+      "id": 6
+    },
+    {
+      "name": "product-6",
+      "price": 6000,
+      "id": 6
+    },
+    {
+      "name": "product-6",
+      "price": 6000,
+      "id": 6
+    },
+    {
+      "name": "product-2",
+      "price": 2000,
+      "id": 2
     }
   ]
 }
